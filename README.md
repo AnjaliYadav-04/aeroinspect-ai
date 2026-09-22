@@ -6,7 +6,6 @@ An end-to-end platform that turns **drone footage into actionable maintenance da
 
 > **Project status:** active development. The detection pipeline runs on the base YOLOv8 weights until a custom model is trained on labelled drone data (see [Training a Custom Model](#training-a-custom-model)).
 
-![Dashboard](docs/screenshots/01_dashboard.png)
 
 ---
 
@@ -403,25 +402,6 @@ All endpoints except `/health` and `/auth/register`, `/auth/login` require a JWT
 | GET | `/health` | Service health (no `/api/v1` prefix) |
 
 ---
-
-## Screenshots
-
-| Dashboard | Map view |
-|---|---|
-| ![Dashboard](docs/screenshots/01_dashboard.png) | ![Map](docs/screenshots/02_map.png) |
-| **Detections** | **PDF report** |
-| ![Detections](docs/screenshots/03_detections.png) | ![Report](docs/screenshots/04_report.png) |
-
----
-
-## Current Status & Limitations
-
-- The custom 13-class model has **not yet been trained**; the labelled dataset is not included in this repository. Until then, detection uses the base YOLOv8n weights.
-- Background report generation calls protected endpoints without a token, so report creation can fail and remain in the `generating` state. Authentication for internal service calls is in progress.
-- Uploaded files are stored on disk but **not yet recorded in the database**, so they are not automatically linked to inspections.
-- The heatmap endpoint returns weighted points; server-side defect clustering is not yet implemented.
-- No automated tests yet (`backend/tests/` is a placeholder).
-- CORS allows all origins, which is suitable for development only.
 
 ## Roadmap
 
