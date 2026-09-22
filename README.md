@@ -25,8 +25,6 @@ An end-to-end platform that turns **drone footage into actionable maintenance da
 - [How to Run](#how-to-run)
 - [Training a Custom Model](#training-a-custom-model)
 - [API Reference](#api-reference)
-- [Screenshots](#screenshots)
-- [Current Status & Limitations](#current-status--limitations)
 - [Roadmap](#roadmap)
 
 ---
