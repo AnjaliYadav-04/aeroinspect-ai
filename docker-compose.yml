@@ -1,0 +1,91 @@
+version: '3.8'
+
+services:
+  redis:
+    image: redis:7-alpine
+    container_name: drone_redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - drone_network
+
+  ai-engine:
+    build:
+      context: ./ai-engine
+      dockerfile: Dockerfile
+    container_name: drone_ai
+    environment:
+      - REDIS_URL=redis://redis:6379
+      - MODEL_PATH=/app/models/yolov8n-drone.pt
+      - DEVICE=cpu
+      - BACKEND_URL=http://backend:8000
+    volumes:
+      - ./ai-engine/models:/app/models
+      - ./storage/uploads:/app/uploads
+      - ./storage/processed:/app/processed
+      - ./storage/reports:/app/reports
+    depends_on:
+      redis:
+        condition: service_started
+    networks:
+      - drone_network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: drone_backend
+    environment:
+      - DATABASE_URL=sqlite+aiosqlite:///app/data/drone_inspection.db
+      - REDIS_URL=redis://redis:6379
+      - AI_ENGINE_URL=http://ai-engine:8001
+      - SECRET_KEY=${SECRET_KEY:-super-secret-key-change-in-production}
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend/data:/app/data
+      - ./storage/uploads:/app/uploads
+      - ./storage/reports:/app/reports
+    depends_on:
+      redis:
+        condition: service_started
+      ai-engine:
+        condition: service_started
+    networks:
+      - drone_network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: drone_frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    networks:
+      - drone_network
+
+  nginx:
+    image: nginx:alpine
+    container_name: drone_nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./storage/uploads:/var/www/uploads
+    depends_on:
+      - backend
+      - frontend
+    networks:
+      - drone_network
+
+volumes:
+  redis_data:
+  sqlite_data:
+
+networks:
+  drone_network:
+    driver: bridge

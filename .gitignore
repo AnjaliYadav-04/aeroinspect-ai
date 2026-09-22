@@ -1,0 +1,104 @@
+# ─────────────────────────────────────────────
+# Secrets & environment
+# ─────────────────────────────────────────────
+.env
+.env.*
+!.env.example
+
+# ─────────────────────────────────────────────
+# Python
+# ─────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.so
+*.egg-info/
+.eggs/
+build/
+dist/
+venv/
+.venv/
+env/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.ipynb_checkpoints/
+
+# ─────────────────────────────────────────────
+# Node / Frontend
+# ─────────────────────────────────────────────
+node_modules/
+frontend/dist/
+frontend/build/
+frontend/.next/
+frontend/.vite/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ─────────────────────────────────────────────
+# SQLite database
+# ─────────────────────────────────────────────
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+*.sqlite
+*.sqlite3
+
+# ─────────────────────────────────────────────
+# Runtime data (uploads, reports)
+# ─────────────────────────────────────────────
+data/
+**/data/uploads/
+**/data/reports/
+!**/.gitkeep
+
+# ─────────────────────────────────────────────
+# ML: model weights & exports
+# ─────────────────────────────────────────────
+*.pt
+*.pth
+*.onnx
+*.engine
+*.tflite
+*_openvino_model/
+models/
+**/models/drone_custom/
+
+# ─────────────────────────────────────────────
+# ML: training data & Ultralytics output
+# ─────────────────────────────────────────────
+training/data/
+training/dataset.yaml
+runs/
+wandb/
+mlruns/
+
+# ─────────────────────────────────────────────
+# Drone footage & large media
+# ─────────────────────────────────────────────
+*.mp4
+*.mov
+*.MOV
+*.avi
+*.tif
+*.tiff
+*.TIF
+
+# ─────────────────────────────────────────────
+# OS & editors
+# ─────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.log
+storage/
+
+storage/
+
+*.zip
